@@ -1,0 +1,13 @@
+package com.mynt.app.githubclient.usecase.user
+
+import com.mynt.app.githubclient.model.User
+import com.mynt.app.githubclient.repository.user.UserRepository
+import javax.inject.Inject
+
+class SearchUsersUseCase @Inject constructor(
+    private val userRepository: UserRepository
+) {
+    suspend operator fun invoke(query: String): Result<List<User>> {
+        return userRepository.searchUsers(query)
+    }
+}
