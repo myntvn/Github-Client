@@ -71,6 +71,8 @@ dependencies {
 
     implementation(libs.io.coil.compose)
 
+    implementation(libs.androidx.browser)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

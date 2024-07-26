@@ -1,5 +1,7 @@
 package com.mynt.app.githubclient.ui.main.user
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +14,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,6 +29,13 @@ fun RepoList(
     modifier: Modifier = Modifier,
     repos: List<Repo>
 ) {
+    val context = LocalContext.current
+
+    val openRepoUrl: (String) -> Unit = { url ->
+        val customTabsIntent = CustomTabsIntent.Builder().build()
+        customTabsIntent.launchUrl(context, Uri.parse(url))
+    }
+
     LazyColumn(
         modifier = modifier.padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -34,7 +44,7 @@ fun RepoList(
             items = repos,
             key = { it.id }
         ) { repo ->
-            RepoItem(repo = repo)
+            RepoItem(repo = repo, onRepoClick = openRepoUrl)
         }
     }
 }
@@ -42,11 +52,12 @@ fun RepoList(
 @Composable
 private fun RepoItem(
     modifier: Modifier = Modifier,
-    repo: Repo
+    repo: Repo,
+    onRepoClick: (String) -> Unit
 ) {
     ElevatedCard(
         modifier = modifier,
-        onClick = { }
+        onClick = { onRepoClick(repo.url) }
     ) {
         Column(
             modifier = Modifier.padding(8.dp)
