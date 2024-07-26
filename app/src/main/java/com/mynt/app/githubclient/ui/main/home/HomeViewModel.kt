@@ -10,6 +10,7 @@ import com.mynt.app.githubclient.usecase.user.SearchUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,8 +21,8 @@ class HomeViewModel @Inject constructor(
     var query by mutableStateOf("")
         private set
 
-    private var _users = MutableStateFlow(emptyList<User>())
-    val users = _users.asStateFlow()
+    private val _screenState = MutableStateFlow<HomeScreenState>(HomeScreenState.Ready(emptyList()))
+    val screenState = _screenState.asStateFlow()
 
     fun updateQuery(str: String) {
         query = str
@@ -29,12 +30,24 @@ class HomeViewModel @Inject constructor(
 
     fun search() {
         if (query.isBlank()) return
+        if (_screenState.value is HomeScreenState.Searching) return
 
         viewModelScope.launch {
+            _screenState.update { HomeScreenState.Searching }
+
             val result = searchUsersUseCase(query)
             if (result.isSuccess) {
-                _users.value = result.getOrNull() ?: emptyList()
+                val users = result.getOrNull() ?: emptyList()
+                _screenState.update { HomeScreenState.Ready(users) }
+            } else {
+                _screenState.update { HomeScreenState.Error }
             }
         }
     }
+}
+
+sealed interface HomeScreenState {
+    data object Searching : HomeScreenState
+    data class Ready(val users: List<User>) : HomeScreenState
+    data object Error : HomeScreenState
 }
