@@ -1,7 +1,7 @@
 package com.mynt.app.githubclient.repository.user
 
 import com.mynt.app.githubclient.model.User
-import com.mynt.app.githubclient.network.data.UserRemoteDataSource
+import com.mynt.app.githubclient.network.data.user.UserRemoteDataSource
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(

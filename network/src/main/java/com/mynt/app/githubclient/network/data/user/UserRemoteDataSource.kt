@@ -1,4 +1,4 @@
-package com.mynt.app.githubclient.network.data
+package com.mynt.app.githubclient.network.data.user
 
 import com.mynt.app.githubclient.model.User
 

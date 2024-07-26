@@ -1,6 +1,7 @@
 package com.mynt.app.githubclient.network.api
 
 import com.mynt.app.githubclient.network.model.DetailUserResponse
+import com.mynt.app.githubclient.network.model.RepoResponse
 import com.mynt.app.githubclient.network.model.SearchUserResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -14,8 +15,13 @@ interface GithubApi {
         @Query("per_page") perPage: Int = 2
     ): Response<SearchUserResponse>
 
-    @GET("/users/{login}")
+    @GET("/users/{user_id}")
     suspend fun getUser(
-        @Path("login") login: String
+        @Path("user_id") userId: String
     ): Response<DetailUserResponse>
+
+    @GET("/users/{user_id}/repos")
+    suspend fun getRepos(
+        @Path("user_id") userId: String
+    ): Response<List<RepoResponse>>
 }

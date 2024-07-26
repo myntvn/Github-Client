@@ -1,5 +1,7 @@
 package com.mynt.app.githubclient.repository.di
 
+import com.mynt.app.githubclient.repository.repo.RepoRepository
+import com.mynt.app.githubclient.repository.repo.RepoRepositoryImpl
 import com.mynt.app.githubclient.repository.user.UserRepository
 import com.mynt.app.githubclient.repository.user.UserRepositoryImpl
 import dagger.Binds
@@ -17,5 +19,11 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ): UserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRepoRepository(
+        repoRepositoryImpl: RepoRepositoryImpl
+    ): RepoRepository
 
 }
