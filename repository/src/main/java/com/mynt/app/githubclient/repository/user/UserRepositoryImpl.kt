@@ -12,4 +12,8 @@ class UserRepositoryImpl @Inject constructor(
         return userRemoteDataSource.searchUsers(query)
     }
 
+    override suspend fun getUser(userId: String): Result<User> {
+        return userRemoteDataSource.getUser(userId)
+    }
+
 }

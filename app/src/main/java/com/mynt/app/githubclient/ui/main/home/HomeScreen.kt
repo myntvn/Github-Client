@@ -127,8 +127,11 @@ private fun PreviewMainScreen() {
     val user = User(
         id = "user1",
         name = "Nguyen Thien My",
-        avatar = "https://avatars.githubusercontent.com/u/2"
+        avatar = "https://avatars.githubusercontent.com/u/2",
+        followers = 0,
+        following = 0
     )
+
     GithubClientTheme {
         UserItem(
             user = user,
