@@ -1,10 +1,12 @@
 package com.mynt.app.githubclient.network.di
 
+import com.mynt.app.githubclient.network.BuildConfig
 import com.mynt.app.githubclient.network.api.GithubApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -23,6 +25,13 @@ class NetworkModule {
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     setLevel(HttpLoggingInterceptor.Level.BODY) // TODO should be for debug only
+                }
+            )
+            .addInterceptor(
+                Interceptor { chain ->
+                    val request = chain.request().newBuilder()
+                    request.addHeader("Authorization", "Bearer ${BuildConfig.TOKEN}")
+                    chain.proceed(request.build())
                 }
             )
             .build()

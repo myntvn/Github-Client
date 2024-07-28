@@ -12,7 +12,7 @@ interface GithubApi {
     @GET("/search/users")
     suspend fun searchUsers(
         @Query("q") query: String,
-        @Query("per_page") perPage: Int = 30
+        @Query("per_page") perPage: Int = 50
     ): Response<SearchUserResponse>
 
     @GET("/users/{user_id}")

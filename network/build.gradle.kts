@@ -11,12 +11,19 @@ android {
     namespace = "com.mynt.app.githubclient.network"
     compileSdk = 34
 
+    defaultConfig {
+        buildConfigField("String", "TOKEN", "\"ACCESS_TOKEN\"")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
